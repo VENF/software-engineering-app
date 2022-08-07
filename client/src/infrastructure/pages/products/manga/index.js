@@ -1,0 +1,1 @@
+export const Manga = ({ name = 'snk' }) => <div>Manga: {name} </div>;

@@ -1,0 +1,10 @@
+node_modules
+dist
+/client/node_modules
+client/build
+
+.env
+.tmp
+logs
+*.log
+npm-debug.log*

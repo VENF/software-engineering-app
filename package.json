@@ -1,0 +1,59 @@
+{
+  "name": "behold",
+  "version": "1.0.0",
+  "description": "software-engineering-project",
+  "main": "index.js",
+  "scripts": {
+    "lint": "prettier --write ./src/**/*.{ts,json,md} ./_tests_/**/*.ts",
+    "start": "cross-env NODE_ENV=pro node ./dist/index.js",
+    "dev": "rimraf dist && cross-env NODE_ENV=dev tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "build": "cross-env NODE_ENV=pro tsc && npm run build --prefix client",
+    "clean": "rimraf ./dist",
+    "prepare": "node move.js",
+    "inst": "npm install && npm install --prefix client"
+  },
+  "keywords": [
+    "tests",
+    "jest",
+    "tdd",
+    "typescript",
+    "node"
+  ],
+  "author": "Victor Naranjo",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.6",
+    "@types/jest": "^26.0.0",
+    "@types/mongoose": "^5.7.23",
+    "@types/morgan": "^1.9.3",
+    "@types/supertest": "^2.0.9",
+    "fs-extra": "^10.1.0",
+    "jest": "^26.0.1",
+    "prettier": "2.0.5",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.1.0",
+    "ts-node": "^8.10.2",
+    "ts-watch": "^1.0.8",
+    "tsc-watch": "^4.2.8",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.14.1",
+    "http-status": "^1.5.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.18",
+    "morgan": "^1.10.0",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
