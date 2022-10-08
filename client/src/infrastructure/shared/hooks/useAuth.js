@@ -15,7 +15,10 @@ export const useAuth = () => {
       checkoutServices().then((data) => {
         setAuth('authorized');
         setUser(data);
-      });
+      })
+      .catch(err => {
+        setAuth('unauthorized');
+      })
     }
   }, [token]);
 

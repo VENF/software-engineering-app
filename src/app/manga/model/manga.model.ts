@@ -9,7 +9,8 @@ const mangaSchema = new Schema({
   votes: { type: String, required: true },
   sinopsis: { type: String, required: true },
   price: { type: Number, required: true },
-  categories: { type: Array, default: [] }
+  categories: { type: Array, default: [] },
+  url: { type: String, default: "" }
 });
 
 export default model<MangaEntity>('manga', mangaSchema);

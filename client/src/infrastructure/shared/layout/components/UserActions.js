@@ -1,15 +1,9 @@
+import { useState } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import { CreditCard, Shopping, Logout } from 'mdi-material-ui';
+import { DialogShopping } from 'src/infrastructure/shared/components/DialogShopping/DialogShopping';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-
-const ImgStyled = styled('img')(({ theme }) => ({
-  width: 40,
-  height: 40,
-  marginRight: theme.spacing(6.25),
-  borderRadius: '50%',
-  border: `2px solid ${theme.palette.primary.main}`
-}));
 
 const Active = styled('div')(({ theme }) => ({
   width: '10px',
@@ -26,9 +20,11 @@ const ShoppingCard = styled(IconButton)(({ theme }) => ({
 }));
 
 export const UserActions = ({ pathname }) => {
+  const [openShopping, setOpenShopping] = useState(false);
   const navigate = useNavigate();
-  const avatar =
-    'https://studiosol-a.akamaihd.net/uploadfile/letras/fotos/2/c/1/9/2c192dc4d06895bda3f2190ff32a04ca.jpg';
+  const handlerDialog = () => {
+    setOpenShopping((pre) => !pre);
+  };
   return (
     <Grid
       sx={{
@@ -48,16 +44,10 @@ export const UserActions = ({ pathname }) => {
         />
       </IconButton>
 
-      <ShoppingCard
-        onClick={() => alert('open dialog shoping')}
-        style={{ margin: '0px 20px' }}
-        size="large"
-      >
+      <ShoppingCard onClick={handlerDialog} style={{ margin: '0px 20px' }} size="large">
         <Active></Active>
         <Shopping fontSize="inherit" />
       </ShoppingCard>
-
-      <ImgStyled src={avatar} alt="Profile Pic" />
 
       <IconButton
         onClick={() => {
@@ -68,6 +58,7 @@ export const UserActions = ({ pathname }) => {
       >
         <Logout fontSize="inherit" />
       </IconButton>
+      <DialogShopping open={openShopping} handlerClouse={handlerDialog} />
     </Grid>
   );
 };

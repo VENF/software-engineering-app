@@ -4,6 +4,7 @@ import userRoutes from './app/user/routes/user.routes';
 import dasboardRoutes from './app/home/routes/home.routes';
 import mangaRoutes from './app/manga/routes/manga.routes';
 import ShoppingRoutes from './app/shopping/routes/shopping.routes';
+import CardRoutes from './app/card/routes/card.routes';
 // fill db before starter
 import { insertDataMangas } from './config/data';
 // helpers
@@ -37,6 +38,7 @@ export class Server implements IServer {
     this.server.use('/home', dasboardRoutes);
     this.server.use('/manga', mangaRoutes);
     this.server.use('/cart', ShoppingRoutes);
+    this.server.use('/card', CardRoutes);
   }
   async listen() {
     this.server.listen(this.server.get('port'));

@@ -7,9 +7,11 @@ import {
   Typography,
   Rating,
   Box,
-  CardActionArea
+  CardActionArea,
+  IconButton
 } from '@mui/material';
 import TextButton from '@mui/material/Button';
+import { Delete } from 'mdi-material-ui';
 import { Button } from 'src/infrastructure/shared/components/Button/Button';
 
 const formatSinopsis = (sinopsis, short = 40) =>
@@ -142,7 +144,7 @@ const MangaPopularCard = ({ title, img, sinopsis, id, price }) => {
 };
 
 const MangaBuyedCard = ({ title, img, sinopsis, id, price }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <CardActionArea sx={{ width: '350px', borderRadius: '10px' }}>
       <Card elevation={0} sx={{ borderRadius: '10px' }}>
@@ -168,6 +170,30 @@ const MangaBuyedCard = ({ title, img, sinopsis, id, price }) => {
         </CardContent>
       </Card>
     </CardActionArea>
+  );
+};
+
+const MangaItem = ({ title, img, id, price }) => {
+  return (
+    <Card sx={{ display: 'flex', justifyContent: "space-between", alignItems: "center"  }} elevation={0}>
+      <Box sx={{ display: 'flex', alignItems: "center" }}>
+        <Box sx={{ width: '100px', height: '100px' }}>
+          <CardMedia sx={{ height: '100%', borderRadius: '10px' }} image={img} />
+        </Box>
+        <Box sx={{marginLeft: "2rem"}}>
+          <Typography variant="h6"> {title} </Typography>
+          <Typography variant="h6">
+            {' '}
+            Monto: <span style={{ color: 'red' }}> {price}$ </span>{' '}
+          </Typography>
+        </Box>
+      </Box>
+      <Box>
+        <IconButton color="primary" size="large" variant="contained">
+          <Delete />
+        </IconButton>
+      </Box>
+    </Card>
   );
 };
 
@@ -206,6 +232,17 @@ export const Manga = ({
     ),
     buyed: (
       <MangaBuyedCard
+        title={title}
+        img={img}
+        rating={rating}
+        votes={votes}
+        sinopsis={sinopsis}
+        id={id}
+        price={price}
+      />
+    ),
+    item: (
+      <MangaItem
         title={title}
         img={img}
         rating={rating}

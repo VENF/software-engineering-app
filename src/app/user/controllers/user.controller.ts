@@ -1,5 +1,6 @@
 import User from '../model/user.model';
 import Shopping from '../../shopping/model/shopping.model';
+import Card from '../../card/model/card.model';
 import { encryptPassword, comparePassword } from '../../../shared/services/bcrypt';
 import { createToken } from '../../../shared/services/jwt';
 import { Request, Response } from 'express';
@@ -48,9 +49,13 @@ export const signup = async (req: Request, res: Response) => {
     userId: user._id,
     products: []
   });
+  const createCreditCard = new Card({
+    userId: user._id
+  });
   try {
     await user.save();
     await userCar.save();
+    await createCreditCard.save();
     return res.status(200).json({
       msg: 'Usuario creado con exito',
       error: false
@@ -94,4 +99,3 @@ export const signin = async (req: Request, res: Response) => {
     });
   }
 };
-
