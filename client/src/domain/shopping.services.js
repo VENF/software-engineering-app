@@ -13,3 +13,37 @@ export const getShoppingCard = async () => {
   const data = await res.json();
   return data;
 };
+
+
+export const addToCarManga = async (id) => {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`${BASE_URL}/cart/add`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'auth-token': token
+    },
+    body: JSON.stringify({
+      productId: id
+    })
+  });
+  const data = await res.json();
+  return data;
+};
+
+
+export const removeToCarManga = async (id) => {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`${BASE_URL}/cart/remove`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'auth-token': token
+    },
+    body: JSON.stringify({
+      productId: id
+    })
+  });
+  const data = await res.json();
+  return data;
+};

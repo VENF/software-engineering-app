@@ -1,3 +1,4 @@
+import { useState, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Card,
@@ -8,11 +9,24 @@ import {
   Rating,
   Box,
   CardActionArea,
-  IconButton
+  IconButton,
+  Dialog,
+  DialogContent
 } from '@mui/material';
 import TextButton from '@mui/material/Button';
 import { Delete } from 'mdi-material-ui';
 import { Button } from 'src/infrastructure/shared/components/Button/Button';
+import { addToCarManga } from 'src/domain/shopping.services';
+
+const OperationResponse = ({ open, handlerClouse, msg }) => {
+  return (
+    <Dialog open={open} onClose={handlerClouse}>
+      <DialogContent>
+        <Typography variant="h6">{msg}</Typography>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 const formatSinopsis = (sinopsis, short = 40) =>
   sinopsis.length > 40
@@ -33,7 +47,16 @@ Itadori decide adentrarse en el instituto
 para salvar a sus compañeros. 
 ¿Qué le deparará el destino?`;
 
-const MangaCard = ({ title, img, rating, votes, sinopsis, id, price }) => {
+const MangaCard = ({
+  title,
+  img,
+  rating,
+  votes,
+  sinopsis,
+  id,
+  price,
+  handlerAddMangaToBuy
+}) => {
   const navigate = useNavigate();
   return (
     <Card elevation={0} sx={{ borderRadius: '10px' }}>
@@ -97,7 +120,7 @@ const MangaCard = ({ title, img, rating, votes, sinopsis, id, price }) => {
           </Box>
         </Box>
         <Box sx={{ margin: '10px 0px' }}>
-          <Button onClick={() => alert(`agregar al carrito ${id}`)} width="200px">
+          <Button onClick={() => handlerAddMangaToBuy(id)} width="200px">
             Agregar al carrito
           </Button>
         </Box>
@@ -106,7 +129,7 @@ const MangaCard = ({ title, img, rating, votes, sinopsis, id, price }) => {
   );
 };
 
-const MangaPopularCard = ({ title, img, sinopsis, id, price }) => {
+const MangaPopularCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBuy }) => {
   return (
     <Card
       elevation={0}
@@ -133,7 +156,7 @@ const MangaPopularCard = ({ title, img, sinopsis, id, price }) => {
             </Typography>
           </Box>
           <Box sx={{ margin: '5px 0px' }}>
-            <Button onClick={() => alert(`agregar al carrito ${id}`)} width="200px">
+            <Button onClick={() => handlerAddMangaToBuy(id)} width="200px">
               Agregar al carrito
             </Button>
           </Box>
@@ -143,7 +166,7 @@ const MangaPopularCard = ({ title, img, sinopsis, id, price }) => {
   );
 };
 
-const MangaBuyedCard = ({ title, img, sinopsis, id, price }) => {
+const MangaBuyedCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBuy }) => {
   // const navigate = useNavigate();
   return (
     <CardActionArea sx={{ width: '350px', borderRadius: '10px' }}>
@@ -173,14 +196,17 @@ const MangaBuyedCard = ({ title, img, sinopsis, id, price }) => {
   );
 };
 
-const MangaItem = ({ title, img, id, price }) => {
+const MangaItem = ({ title, img, id, price, onDelete }) => {
   return (
-    <Card sx={{ display: 'flex', justifyContent: "space-between", alignItems: "center"  }} elevation={0}>
-      <Box sx={{ display: 'flex', alignItems: "center" }}>
+    <Card
+      sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: "10px 0px" }}
+      elevation={0}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={{ width: '100px', height: '100px' }}>
           <CardMedia sx={{ height: '100%', borderRadius: '10px' }} image={img} />
         </Box>
-        <Box sx={{marginLeft: "2rem"}}>
+        <Box sx={{ marginLeft: '2rem' }}>
           <Typography variant="h6"> {title} </Typography>
           <Typography variant="h6">
             {' '}
@@ -189,7 +215,7 @@ const MangaItem = ({ title, img, id, price }) => {
         </Box>
       </Box>
       <Box>
-        <IconButton color="primary" size="large" variant="contained">
+        <IconButton onClick={() => onDelete(id)} color="primary" size="large" variant="contained">
           <Delete />
         </IconButton>
       </Box>
@@ -205,41 +231,67 @@ export const Manga = ({
   sinopsis = sinopsisDefault,
   id = 'zhuwej1234',
   price = '19.98',
-  variant = 'default'
+  variant = 'default',
+  onDelete
 }) => {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [msg, setMsg] = useState('');
+  const handlerClouse = () => setOpen(false);
+
+  const handlerAddMangaToBuy = async (id) => {
+    const response = await addToCarManga(id);
+    if (response) {
+      setMsg(response.msg);
+      setOpen(true);
+      navigate(0)
+    }
+  };
+
   const mode = {
     default: (
-      <MangaCard
-        title={title}
-        img={img}
-        rating={rating}
-        votes={votes}
-        sinopsis={sinopsis}
-        id={id}
-        price={price}
-      />
+      <Fragment>
+        <MangaCard
+          title={title}
+          img={img}
+          rating={rating}
+          votes={votes}
+          sinopsis={sinopsis}
+          id={id}
+          price={price}
+          handlerAddMangaToBuy={handlerAddMangaToBuy}
+        />
+        <OperationResponse open={open} handlerClouse={handlerClouse} msg={msg} />
+      </Fragment>
     ),
     popular: (
-      <MangaPopularCard
-        title={title}
-        img={img}
-        rating={rating}
-        votes={votes}
-        sinopsis={sinopsis}
-        id={id}
-        price={price}
-      />
+      <Fragment>
+        <MangaPopularCard
+          title={title}
+          img={img}
+          rating={rating}
+          votes={votes}
+          sinopsis={sinopsis}
+          id={id}
+          price={price}
+          handlerAddMangaToBuy={handlerAddMangaToBuy}
+        />
+        <OperationResponse open={open} handlerClouse={handlerClouse} msg={msg} />
+      </Fragment>
     ),
     buyed: (
-      <MangaBuyedCard
-        title={title}
-        img={img}
-        rating={rating}
-        votes={votes}
-        sinopsis={sinopsis}
-        id={id}
-        price={price}
-      />
+      <Fragment>
+        <MangaBuyedCard
+          title={title}
+          img={img}
+          rating={rating}
+          votes={votes}
+          sinopsis={sinopsis}
+          id={id}
+          price={price}
+          handlerAddMangaToBuy={handlerAddMangaToBuy}
+        />
+      </Fragment>
     ),
     item: (
       <MangaItem
@@ -250,6 +302,7 @@ export const Manga = ({
         sinopsis={sinopsis}
         id={id}
         price={price}
+        onDelete={onDelete}
       />
     )
   };
