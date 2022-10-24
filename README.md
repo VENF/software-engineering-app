@@ -1,7 +1,7 @@
 # software Engineering Project 
 
 ## Division de secciones en el proyecto :
-- **App :** Contiene todo el sitema.
+- **App :** Contiene todo el sistema.
 - **App/src :** Logica de servidor
 - **App/client :** Contiene todo el cliente
 
