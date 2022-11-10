@@ -6,7 +6,6 @@ const options: ConnectionOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true
 };
-
 if (process.env.NODE_ENV === 'dev') {
   mongoose.connect(config.MONGODB_URI, options);
   const connection = mongoose.connection;
