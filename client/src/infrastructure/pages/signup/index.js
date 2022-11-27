@@ -32,19 +32,17 @@ export const Signup = () => {
     control,
     formState: { errors }
   } = useForm();
-  //yelean@gmail.com
+
   const onSubmit = async (data) => {
-    if (data.confirm !== data.password)
-      return setAsyncErrors('Las contrasenas no coinciden');
     setIsLoading(true)
     const response = await signupService({
-      name: data.name,
+      username: data.username,
       password: data.password,
       email: data.email
     });
-    response?.error
-      ? setAsyncErrors('Este usuario ya existe')
-      : navigate('/', { replace: true });
+     response?.error
+       ? setAsyncErrors('Este usuario ya  se en cuentra registrado')
+       : navigate('/', { replace: true });
     setIsLoading(false)
   };
 
@@ -55,7 +53,7 @@ export const Signup = () => {
           <AuthHeader
             title="BEHOLD"
             subtitle="Bienvenido a BEHOLD"
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+            text="Aqui comienza la aventura viajero !"
           />
           <FormSignup
             handlerShowPassword={handlerShowPassword}

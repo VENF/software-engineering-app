@@ -10,7 +10,7 @@ export const check = async (req: Request, res: Response) => {
     avatar: 1,
     email: 1,
     mangas: 1,
-    name: 1
+    username: 1
   });
   return res.status(200).json(users);
 };
@@ -38,12 +38,12 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const signup = async (req: Request, res: Response) => {
-  const { email, password, name } = req.body;
+  const { email, password, username } = req.body;
   const encrypted = await encryptPassword(password);
   const user = new User({
     email,
     password: encrypted,
-    name
+    username
   });
   const userCar = new Shopping({
     userId: user._id,

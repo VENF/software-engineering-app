@@ -13,9 +13,9 @@ router
   .post(
     body('email').isEmail().withMessage('Ingrese un email valido'),
     body('password')
-      .isLength({ min: 6 })
-      .withMessage('La contrasena debe contener al menos 6 caracteres'),
-    body('name').notEmpty().withMessage('Su nombre no puede estar vacio'),
+      .isLength({ min: 8 })
+      .withMessage('La contrasena debe contener al menos 8 caracteres'),
+    body('username').notEmpty().withMessage('Su username no puede estar vacio'),
     validateRequest,
     signup
   );

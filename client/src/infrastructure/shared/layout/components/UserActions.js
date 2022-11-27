@@ -48,7 +48,6 @@ export const UserActions = ({ pathname }) => {
         <Active></Active>
         <Shopping fontSize="inherit" />
       </ShoppingCard>
-
       <IconButton
         onClick={() => {
           localStorage.removeItem('token');

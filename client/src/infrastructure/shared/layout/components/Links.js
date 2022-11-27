@@ -20,10 +20,6 @@ const links = [
     name: 'Home',
     to: '/home'
   },
-  {
-    name: 'Mangas',
-    to: '/mangas'
-  }
 ];
 
 export const Links = ({ pathname }) => {

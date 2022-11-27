@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import { ArrowRightCircle, ArrowLeftCircle } from 'mdi-material-ui';
-
+import { CreditCard } from "../../components/CreditCard/index"
 const Main = styled(Box)(({ theme, openPanel, navbaroff }) => ({
   display: 'grid',
   gridTemplateColumns: navbaroff ? '1fr' : openPanel ? '1fr .2fr' : '1fr 0fr'
@@ -29,7 +29,7 @@ const PageContainer = styled(Box)(({ theme, navbaroff }) => ({
 }));
 
 export const Content = ({ children, navbaroff }) => {
-  const [openPanel, setOpenPanel] = useState(true);
+  const [openPanel, setOpenPanel] = useState(false);
   return (
     <Main navbaroff={navbaroff} openPanel={openPanel}>
       <PageContainer navbaroff={navbaroff}>
@@ -42,7 +42,9 @@ export const Content = ({ children, navbaroff }) => {
               {openPanel ? <ArrowRightCircle /> : <ArrowLeftCircle />}
             </IconButton>
           </Box>
-          <Wrapper openPanel={openPanel}></Wrapper>
+          <Wrapper openPanel={openPanel}>
+            <CreditCard/>
+          </Wrapper>
         </CreditContainer>
       )}
     </Main>

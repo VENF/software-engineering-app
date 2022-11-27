@@ -5,9 +5,7 @@ import dasboardRoutes from './app/home/routes/home.routes';
 import mangaRoutes from './app/manga/routes/manga.routes';
 import ShoppingRoutes from './app/shopping/routes/shopping.routes';
 import CardRoutes from './app/card/routes/card.routes';
-// fill db before starter
 import { insertDataMangas } from './config/data';
-// helpers
 import cors from 'cors';
 import morgan from 'morgan';
 import path from 'path';

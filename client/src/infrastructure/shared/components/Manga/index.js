@@ -55,7 +55,8 @@ const MangaCard = ({
   sinopsis,
   id,
   price,
-  handlerAddMangaToBuy
+  handlerAddMangaToBuy,
+  notToBy
 }) => {
   const navigate = useNavigate();
   return (
@@ -120,8 +121,8 @@ const MangaCard = ({
           </Box>
         </Box>
         <Box sx={{ margin: '10px 0px' }}>
-          <Button onClick={() => handlerAddMangaToBuy(id)} width="200px">
-            Agregar al carrito
+          <Button onClick={() => notToBy ? null: handlerAddMangaToBuy(id)} width="200px">
+            {notToBy ? "Ya lo tienes!": "Agregar al carrito"}
           </Button>
         </Box>
       </CardContent>
@@ -129,7 +130,7 @@ const MangaCard = ({
   );
 };
 
-const MangaPopularCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBuy }) => {
+const MangaPopularCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBuy, notToBy }) => {
   return (
     <Card
       elevation={0}
@@ -166,7 +167,7 @@ const MangaPopularCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBu
   );
 };
 
-const MangaBuyedCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBuy }) => {
+const MangaBuyedCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBuy, notToBy }) => {
   // const navigate = useNavigate();
   return (
     <CardActionArea sx={{ width: '350px', borderRadius: '10px' }}>
@@ -196,7 +197,7 @@ const MangaBuyedCard = ({ title, img, sinopsis, id, price, handlerAddMangaToBuy 
   );
 };
 
-const MangaItem = ({ title, img, id, price, onDelete }) => {
+const MangaItem = ({ title, img, id, price, onDelete, notToBy }) => {
   return (
     <Card
       sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: "10px 0px" }}
@@ -232,7 +233,8 @@ export const Manga = ({
   id = 'zhuwej1234',
   price = '19.98',
   variant = 'default',
-  onDelete
+  onDelete,
+  notToBy
 }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -244,10 +246,11 @@ export const Manga = ({
     if (response) {
       setMsg(response.msg);
       setOpen(true);
-      navigate(0)
+      setTimeout(() => {
+        navigate(0)
+      }, 1000);
     }
   };
-
   const mode = {
     default: (
       <Fragment>
@@ -260,6 +263,7 @@ export const Manga = ({
           id={id}
           price={price}
           handlerAddMangaToBuy={handlerAddMangaToBuy}
+          notToBy={notToBy}
         />
         <OperationResponse open={open} handlerClouse={handlerClouse} msg={msg} />
       </Fragment>
@@ -275,6 +279,7 @@ export const Manga = ({
           id={id}
           price={price}
           handlerAddMangaToBuy={handlerAddMangaToBuy}
+          notToBy={notToBy}
         />
         <OperationResponse open={open} handlerClouse={handlerClouse} msg={msg} />
       </Fragment>
@@ -290,6 +295,7 @@ export const Manga = ({
           id={id}
           price={price}
           handlerAddMangaToBuy={handlerAddMangaToBuy}
+          notToBy={notToBy}
         />
       </Fragment>
     ),
@@ -303,6 +309,7 @@ export const Manga = ({
         id={id}
         price={price}
         onDelete={onDelete}
+        notToBy={notToBy}
       />
     )
   };

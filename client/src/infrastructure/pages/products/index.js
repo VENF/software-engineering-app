@@ -18,43 +18,6 @@ import { useManga } from './hooks/useManga';
 import { useDebouncer } from './hooks/useDebouncer';
 import { Manga } from 'src/infrastructure/shared/components/Manga';
 
-const CategorySelect = ({ category, handleChange }) => {
-  const options = [
-    'accion',
-    'demonios',
-    'terror',
-    'shounen',
-    'aventura',
-    'fantasia',
-    'misterio',
-    'terror',
-    'psicologico',
-    'ciencia-ficcion'
-  ];
-
-  return (
-    <Box sx={{ width: 200 }}>
-      <FormControl fullWidth>
-        <InputLabel id="select-label">Filtra por categorias</InputLabel>
-        <Select
-          labelId="select-label"
-          id="select"
-          value={category}
-          label="Filtra por categorias"
-          onChange={handleChange}
-          sx={{ borderRadius: '20px' }}
-        >
-          {options.map((op) => (
-            <MenuItem key={op} value={op}>
-              {op}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
-  );
-};
-
 const Loading = () => {
   return (
     <Grid container spacing={0}>
@@ -143,7 +106,44 @@ const Loading = () => {
   );
 };
 
-export const Content = () => {
+const CategorySelect = ({ category, handleChange }) => {
+  const options = [
+    'accion',
+    'demonios',
+    'terror',
+    'shounen',
+    'aventura',
+    'fantasia',
+    'misterio',
+    'terror',
+    'psicologico',
+    'ciencia-ficcion'
+  ];
+
+  return (
+    <Box sx={{ width: 200 }}>
+      <FormControl fullWidth>
+        <InputLabel id="select-label">Filtra por categorias</InputLabel>
+        <Select
+          labelId="select-label"
+          id="select"
+          value={category}
+          label="Filtra por categorias"
+          onChange={handleChange}
+          sx={{ borderRadius: '20px' }}
+        >
+          {options.map((op) => (
+            <MenuItem key={op} value={op}>
+              {op}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
+  );
+};
+
+export const Content = ({ userMangas }) => {
   const [value, setValue] = useState({
     term: '',
     category: ''
@@ -161,7 +161,8 @@ export const Content = () => {
     setValue((pre) => ({
       ...pre,
       category: e.target.value
-    }));
+  }));
+
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
@@ -183,8 +184,8 @@ export const Content = () => {
             variant="body2"
             color="textSecondary"
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad
+            Ten acceso a los mejores mangas del momento con un solo click !
+            El mejor y mas barato lugar para los amantes de manga japones
           </Typography>
         </Box>
       </Grid>
@@ -220,7 +221,7 @@ export const Content = () => {
             margin: '2rem 0rem'
           }}
         >
-          {mangas.map((manga) => (
+          {mangas.length > 0 && mangas.map((manga) => (
             <Manga
               key={manga._id}
               title={manga.title}
@@ -230,8 +231,24 @@ export const Content = () => {
               votes={manga.votes}
               id={manga._id}
               price={manga.price}
+              notToBy={userMangas.includes(manga._id)}
             />
           ))}
+          {mangas.length < 1 && (
+            <Box sx={{
+              width: '100vw',
+            }}>
+              <Typography
+                align="center"
+                sx={{ width: '100%', margin: '.5rem 0rem' }}
+                variant="h6"
+                color="textSecondary"
+              >
+                No tenemos lo que buscas 😔
+                Pero no te desanimes ! pronto agregaremos mas opciones a nuestro catalogo
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Grid>
     </Grid>
@@ -239,10 +256,12 @@ export const Content = () => {
 };
 
 export const Products = () => {
-  const { auth } = useAuth();
+  const { auth, user } = useAuth();
+  console.log(user)
   if (auth === 'loading') {
     return <Loading />;
   } else {
-    return <Content />;
+    const mangas = user.mangas.map((manga) => manga._id)
+    return <Content userMangas={mangas} />;
   }
 };

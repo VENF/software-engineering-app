@@ -1,1 +1,0 @@
-export const Balance = () => <div>Balance</div>;

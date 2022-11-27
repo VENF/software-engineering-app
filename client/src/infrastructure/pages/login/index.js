@@ -49,7 +49,7 @@ export const Login = () => {
           <AuthHeader
             title="BEHOLD"
             subtitle="Bienvenido a BEHOLD"
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+            text="Adentrate en la mejor plataforma de manga japones del momento"
           />
           <FormLogin
             handlerShowPassword={handlerShowPassword}

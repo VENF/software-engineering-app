@@ -30,7 +30,7 @@ export const cardRecharge = async (req: Request, res: Response) => {
           date: new Date()
         }
       },
-      amount: card.amount + amount
+      amount: parseFloat(card.amount + amount)
     },
     {
       new: true
@@ -66,21 +66,22 @@ export const buy = async (req: Request, res: Response) => {
   mangasToBuy.forEach((manga: TManga) => {
     total += manga.price;
   });
-  if (card.amount < parseInt(total.toFixed(2)))
+  if (card.amount < parseFloat(total.toFixed(2)))
     return res.status(200).json({
       msg: 'Saldo insuficiente'
     });
   await credit.update({
-    amount: card.amount - parseInt(total.toFixed(2)),
+    amount: card.amount - parseFloat(total.toFixed(2)),
     $push: {
       expensesList: {
-        amount: parseInt(total.toFixed(2)),
+        amount: parseFloat(total.toFixed(2)),
         date: new Date()
       }
     }
   });
+  const addedMangas = findUser.mangas.concat(mangasToBuy)
   await findUser.update({
-    mangas: mangasToBuy
+    mangas: addedMangas
   });
   await Shopping.findOneAndUpdate(
     {

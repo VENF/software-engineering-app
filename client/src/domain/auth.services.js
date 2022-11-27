@@ -16,12 +16,12 @@ export const signinService = async ({ email = '', password = '' }) => {
   return operations;
 };
 
-export const signupService = async ({ email = '', password = '', name = '' }) => {
+export const signupService = async ({ email = '', password = '', username = '' }) => {
   const res = await fetch(`${BASE_URL}/user/signup`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({
-      name,
+      username,
       email,
       password
     })

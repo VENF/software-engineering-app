@@ -56,15 +56,15 @@ export const FormSignup = ({ useForm, showPassword, handlerShowPassword, isLoadi
         />
       </Box>
       <Box style={{ margin: '20px 0px' }}>
-        {errors?.name && (
+        {errors?.username && (
           <Box style={{ padding: '10px' }}>
             <Typography color="error" variant="body2">
-              {errors?.name?.message}
+              {errors?.username?.message}
             </Typography>
           </Box>
         )}
         <Controller
-          name="name"
+          name="username"
           control={control}
           rules={{
             required: 'Este campo es obligatorio'
@@ -74,7 +74,7 @@ export const FormSignup = ({ useForm, showPassword, handlerShowPassword, isLoadi
               {...field}
               width="100%"
               type="text"
-              placeholder="name"
+              placeholder="username"
               autoComplete="off"
             />
           )}
@@ -97,45 +97,14 @@ export const FormSignup = ({ useForm, showPassword, handlerShowPassword, isLoadi
               message: 'Este campo no puede estar vacio!'
             },
             minLength: {
-              value: 6,
+              value: 8,
               message: 'debe tener minimo 8 characteres'
-            }
-          }}
-          render={({ field }) => (
-            <Field
-              autoComplete="new-password"
-              icon={
-                <IconButton onClick={handlerShowPassword}>
-                  {showPassword ? <Eye /> : <EyeOff />}
-                </IconButton>
-              }
-              width="100%"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="contraseña"
-              {...field}
-            />
-          )}
-        />
-      </Box>
-      <Box style={{ margin: '20px 0px' }}>
-        {errors?.confirm && (
-          <Box style={{ padding: '10px' }}>
-            <Typography color="error" variant="body2">
-              {errors?.confirm?.message}
-            </Typography>
-          </Box>
-        )}
-        <Controller
-          name="confirm"
-          control={control}
-          rules={{
-            required: {
-              value: true,
-              message: 'Este campo no puede estar vacio!'
             },
-            minLength: {
-              value: 6,
-              message: 'debe tener minimo 8 characteres'
+            validate: {
+              isUpper: (value) => /(?=.*[AZ])/.test(value) || 'La contraseña debe contener al menos 1 carácter alfabético en Mayuscula',
+              isLower: (value) => /(?=.*[az])/.test(value) || 'La contraseña debe contener al menos 1 carácter alfabético en  minúscula',
+              isNum: (value) => /(?=.*[0-9])/.test(value) || 'La contraseña debe contener al menos 1 carácter numerico',
+              isSpecial: (value) => /(?=.*[!@#$%^&*])/.test(value) || 'La contraseña debe contener al menos 1 carácter especial',
             }
           }}
           render={({ field }) => (

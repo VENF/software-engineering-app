@@ -47,3 +47,20 @@ export const removeToCarManga = async (id) => {
   const data = await res.json();
   return data;
 };
+
+
+export const buyServices = async (products) => {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`${BASE_URL}/card/buy`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'auth-token': token
+    },
+    body: JSON.stringify({
+      products: products
+    })
+  });
+  const data = await res.json();
+  return data;
+};
